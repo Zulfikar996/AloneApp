@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "510155392667",
+    "firebase_url": "https://aloneapp-d893b.firebaseio.com",
+    "project_id": "aloneapp-d893b",
+    "storage_bucket": "aloneapp-d893b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510155392667:android:906629ef2dda8a4bafa83e",
+        "android_client_info": {
+          "package_name": "com.aloneapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510155392667-cn98o0oqmlseihd52nkbft0r0fnoqrj4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aloneapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "510155392667-9t4qup0a4id94ieidavpscu4gird4asl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjdyb6zE3B5V_Zk1RGgyXh-1-Qk55nK0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510155392667-9t4qup0a4id94ieidavpscu4gird4asl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
