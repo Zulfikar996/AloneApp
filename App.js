@@ -1,12 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React from 'react';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import React, {Component} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -17,22 +10,56 @@ import {
 } from 'react-native';
 
 import {
-  Header,
   LearnMoreLinks,
   Colors,
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {createStackNavigator} from 'react-navigation-stack';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <View style={{flex: 1, backgroundColor:'red'}}>
-        <Text>klasdkasklasdjk</Text>
-      </View>
-    </>
-  );
-};
+import HomeScreen from './src/screen/home/home';
+import LoginScreen from './src/screen/user/login';
+import RegisterScreen from './src/screen/user/register';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+
+const homeNavigator = createStackNavigator(
+  {
+  Register: {
+    screen: RegisterScreen,
+    navigationOptions: {
+      header: false,
+    },
+  },
+  Login: {
+    screen: LoginScreen,
+    navigationOptions: {
+      header: false,
+    },
+  },
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+      header: false,
+    }
+  }
+},
+    {
+      initialRouteName: 'Login',
+    }
+);
+
+const AppNavigator = createSwitchNavigator({
+  Home: homeNavigator,
+});
+
+const AppContainer = createAppContainer(AppNavigator);
+
+class App extends Component {
+  render() {
+    console.disableYellowBox = true;
+    return <AppContainer />;
+  }
+}
 
 const styles = StyleSheet.create({
   scrollView: {
