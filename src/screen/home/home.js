@@ -17,6 +17,7 @@ import Profile from '../profile/profile';
 import Setting from '../settings/setting';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {auth, db} from '../../config/config';
 
 const styles = StyleSheet.create({
   header: {
@@ -38,10 +39,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 30,
     backgroundColor: '#405A58',
+    color: 'white',
   },
 });
 
 export default class HomeScreen extends Component {
+
+  logout = () => {
+    auth.signOut()
+    .then(()=> (this.props.navigation.navigate('Login')))
+  }
   render() {
     return (
       <Container>
@@ -55,7 +62,11 @@ export default class HomeScreen extends Component {
               </View>
               <View style={{flex: 1}}>
                 <TouchableOpacity>
-                  <Icon name="settings" style={{fontSize: 25, color: 'grey'}} />
+                  <Icon
+                    name="settings"
+                    style={{fontSize: 25, color: 'grey', paddingTop: 10}}
+                    onPress={this.logout}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -79,7 +90,7 @@ export default class HomeScreen extends Component {
             heading={
               <TabHeading style={styles.tabs}>
                 <Icon name="chat-bubble" style={styles.icon} />
-                <Text style={{color: 'gray'}}>Chat</Text>
+                <Text style={{color: 'white'}}>Chat</Text>
               </TabHeading>
             }>
             <Chat />
@@ -88,7 +99,7 @@ export default class HomeScreen extends Component {
             heading={
               <TabHeading style={styles.tabs}>
                 <Icon name="list" style={styles.icon} />
-                <Text style={{color: 'gray'}}>Contact list</Text>
+                <Text style={{color: 'white'}}>Contact list</Text>
               </TabHeading>
             }>
             <Profile />
@@ -97,34 +108,12 @@ export default class HomeScreen extends Component {
             heading={
               <TabHeading style={styles.tabs}>
                 <Icon name="person" style={styles.icon} />
-                <Text style={{color: 'gray'}}>Profile</Text>
+                <Text style={{color: 'white'}}>Profile</Text>
               </TabHeading>
             }>
             <Setting />
           </Tab>
         </Tabs>
-        {/* <Content />
-        <Text>hilih</Text>
-        <Footer>
-          <FooterTab>
-            <Button badge vertical>
-              <Icon name="apps" />
-              <Text>Apps</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="camera" />
-              <Text>Camera</Text>
-            </Button>
-            <Button badge vertical>
-              <Icon name="navigate" />
-              <Text>Navigate</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="person" />
-              <Text>Contact</Text>
-            </Button>
-          </FooterTab>
-        </Footer> */}
       </Container>
     );
   }

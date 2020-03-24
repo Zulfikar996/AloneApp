@@ -72,6 +72,7 @@ class RegisterScreen extends Component {
               name: this.state.name,
               status: 'Online',
               email: this.state.email,
+              uid: userCredentials.user.uid
             })
             .catch(error => console.log(error.message));
 

@@ -27,6 +27,7 @@ class LoginScreen extends Component {
       errorMessage: null,
       visible: false,
       Onprosess: false,
+      loading: false,
     };
   }
 
@@ -58,10 +59,12 @@ class LoginScreen extends Component {
       );
     } else {
       // Action
+      this.setState({loading: true})
       auth
         .signInWithEmailAndPassword(email, password)
         .then(async data => {
           console.log('CHAT HOME')
+          this.setState({loading: false})
           this.props.navigation.navigate('Home');
         })
         .catch(error => console.log(error.message));

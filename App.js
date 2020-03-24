@@ -20,32 +20,36 @@ import {createStackNavigator} from 'react-navigation-stack';
 import HomeScreen from './src/screen/home/home';
 import LoginScreen from './src/screen/user/login';
 import RegisterScreen from './src/screen/user/register';
+import ChatRoom from './src/screen/chat/chatRoom';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 
 const homeNavigator = createStackNavigator(
   {
-  Register: {
-    screen: RegisterScreen,
-    navigationOptions: {
-      header: false,
+    Register: {
+      screen: RegisterScreen,
+      navigationOptions: {
+        header: false,
+      },
+    },
+    Login: {
+      screen: LoginScreen,
+      navigationOptions: {
+        header: false,
+      },
+    },
+    Conversation: {
+      screen: ChatRoom,
+    },
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        header: false,
+      },
     },
   },
-  Login: {
-    screen: LoginScreen,
-    navigationOptions: {
-      header: false,
-    },
+  {
+    initialRouteName: 'Login',
   },
-  Home: {
-    screen: HomeScreen,
-    navigationOptions: {
-      header: false,
-    }
-  }
-},
-    {
-      initialRouteName: 'Login',
-    }
 );
 
 const AppNavigator = createSwitchNavigator({
