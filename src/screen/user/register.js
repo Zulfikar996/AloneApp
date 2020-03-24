@@ -12,8 +12,10 @@ import {
 } from 'react-native';
 import {Container, Header, Content, Form, Item, Input} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {auth, db} from '../../config/config';
 import Logo from '../../../image/drawable-hdpi/Group1.png';
+import {db} from '../../config/config'
+import firebase from '@react-native-firebase/app'
+import '@react-native-firebase/auth'
 
 class RegisterScreen extends Component {
   constructor(props) {
@@ -64,10 +66,11 @@ class RegisterScreen extends Component {
       );
     } else {
       // Action
-      await auth
+      await firebase.auth()
         .createUserWithEmailAndPassword(email, password)
         .then(async userCredentials => {
-          db.ref('/user/' + userCredentials.user.uid)
+          db
+          .ref('/user/' + userCredentials.user.uid)
             .set({
               name: this.state.name,
               status: 'Online',
