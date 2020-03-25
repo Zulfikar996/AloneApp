@@ -18,6 +18,8 @@ import Setting from '../settings/setting';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {auth, db} from '../../config/config';
+import GetLocation from 'react-native-get-location'
+
 
 const styles = StyleSheet.create({
   header: {
@@ -59,18 +61,11 @@ export default class HomeScreen extends Component {
                 </Text>
               </View>
               <View style={{flex: 1}}>
-                {/* <TouchableOpacity>
+                <TouchableOpacity>
                   <Icon
                     name="settings"
                     style={{fontSize: 25, color: 'grey', paddingTop: 10}}
                     onPress={this.logout}
-                  />
-                </TouchableOpacity> */}
-                <TouchableOpacity>
-                  <Icon
-                    name="add"
-                    style={{fontSize: 25, color: 'grey', paddingTop: 10}}
-                    onPress={()=> this.props.navigation.navigate('Maps')}
                   />
                 </TouchableOpacity>
               </View>
@@ -107,7 +102,7 @@ export default class HomeScreen extends Component {
                 <Text style={{color: 'white'}}>Contact list</Text>
               </TabHeading>
             }>
-            <Profile />
+            <Setting />
           </Tab>
           <Tab
             heading={
@@ -116,7 +111,7 @@ export default class HomeScreen extends Component {
                 <Text style={{color: 'white'}}>Profile</Text>
               </TabHeading>
             }>
-            <Setting />
+            <Profile />
           </Tab>
         </Tabs>
       </Container>

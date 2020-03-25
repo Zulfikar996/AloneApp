@@ -72,7 +72,7 @@ class ChatScreen extends Component {
           <List>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={ava} />
+                <Thumbnail source={{uri: `${item.photo}`}} />
               </Left>
               <Body>
                 <Text style={{fontWeight: 'bold'}}>{item.name}</Text>
