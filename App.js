@@ -21,6 +21,7 @@ import HomeScreen from './src/screen/home/home';
 import LoginScreen from './src/screen/user/login';
 import RegisterScreen from './src/screen/user/register';
 import ChatRoom from './src/screen/chat/chatRoom';
+import MapsScreen from './src/screen/chat/maps'
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 
 const homeNavigator = createStackNavigator(
@@ -46,6 +47,10 @@ const homeNavigator = createStackNavigator(
         header: false,
       },
     },
+    Maps: {
+      screen: MapsScreen,
+    },
+
   },
   {
     initialRouteName: 'Login',

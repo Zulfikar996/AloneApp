@@ -10,6 +10,12 @@ const firebaseConfig = {
     appId: "1:510155392667:web:f55e8fbb2fccc7e9afa83e"
 };
 
+login = async (user, success_callback, failed_callback) => {
+    await firebase.auth()
+    .signInWithEmailAndPassword(user.email, user.password)
+    .then(success_callback, failed_callback)
+}
+
 const appConfig = Firebase.initializeApp(firebaseConfig);
 export const db = appConfig.database();
 export const auth = Firebase.auth();

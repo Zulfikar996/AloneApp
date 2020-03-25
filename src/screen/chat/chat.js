@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {
-  Container,
   Content,
   List,
   ListItem,
@@ -14,6 +13,8 @@ import ava from '../../../image/logoava.png';
 import {TouchableOpacity, FlatList} from 'react-native-gesture-handler';
 import {withNavigation} from 'react-navigation';
 import {db, auth} from '../../config/config';
+import GetLocation from 'react-native-get-location'
+
 
 const styles = StyleSheet.create({
   background: {
@@ -25,10 +26,30 @@ const styles = StyleSheet.create({
 class ChatScreen extends Component {
   state = {
     users: [],
+    latitude: '',
+    longitude: '',
   };
 
   componentDidMount() {
     this.getUser();
+    this.getLocation()
+  }
+
+  getLocation(){
+    const id = auth.currentUser.uid
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000
+    })
+    .then(location => {
+      db.ref('/user/' + id ).child("latitude").set(location.latitude)
+      db.ref('/user/' + id ).child("longitude").set(location.longitude)
+    })
+    .catch(error => {
+      const { code, message} = error;
+      console.warn(code, message);
+    })
+    this._isMounted = true;
   }
 
   getUser() {
@@ -45,27 +66,25 @@ class ChatScreen extends Component {
 
   renderRow = ({item}) => {
     return (
-        <Content>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Conversation', item)}>
-            <List>
-              <ListItem avatar>
-                <Left>
-                  <Thumbnail source={ava} />
-                </Left>
-                <Body>
-                  <Text style={{fontWeight: 'bold'}}>{item.name}</Text>
-                  <Text note>
-                    {item.status}
-                  </Text>
-                </Body>
-                <Right>
-                  <Text note>3:43 pm</Text>
-                </Right>
-              </ListItem>
-            </List>
-          </TouchableOpacity>
-        </Content>
+      <Content>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('Conversation', item)}>
+          <List>
+            <ListItem avatar>
+              <Left>
+                <Thumbnail source={ava} />
+              </Left>
+              <Body>
+                <Text style={{fontWeight: 'bold'}}>{item.name}</Text>
+                <Text note>{item.status}</Text>
+              </Body>
+              <Right>
+                <Text note>3:43 pm</Text>
+              </Right>
+            </ListItem>
+          </List>
+        </TouchableOpacity>
+      </Content>
     );
   };
 
@@ -73,13 +92,15 @@ class ChatScreen extends Component {
     console.log(this.props);
     return (
       <>
-      <View>
-        <FlatList  
-          data={this.state.users}
-          renderItem={this.renderRow}
-          keyExtractor={(item) => {item.uid} }
-        />
-      </View>
+        <View>
+          <FlatList
+            data={this.state.users}
+            renderItem={this.renderRow}
+            keyExtractor={item => {
+              item.uid;
+            }}
+          />
+        </View>
       </>
     );
   }

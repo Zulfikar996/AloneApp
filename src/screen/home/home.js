@@ -44,11 +44,9 @@ const styles = StyleSheet.create({
 });
 
 export default class HomeScreen extends Component {
-
   logout = () => {
-    auth.signOut()
-    .then(()=> (this.props.navigation.navigate('Login')))
-  }
+    auth.signOut().then(() => this.props.navigation.navigate('Login'));
+  };
   render() {
     return (
       <Container>
@@ -61,11 +59,18 @@ export default class HomeScreen extends Component {
                 </Text>
               </View>
               <View style={{flex: 1}}>
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                   <Icon
                     name="settings"
                     style={{fontSize: 25, color: 'grey', paddingTop: 10}}
                     onPress={this.logout}
+                  />
+                </TouchableOpacity> */}
+                <TouchableOpacity>
+                  <Icon
+                    name="add"
+                    style={{fontSize: 25, color: 'grey', paddingTop: 10}}
+                    onPress={()=> this.props.navigation.navigate('Maps')}
                   />
                 </TouchableOpacity>
               </View>

@@ -8,14 +8,15 @@ import {
   StatusBar,
   ToastAndroid,
   ImageBackground,
-  Image
+  Image,
 } from 'react-native';
 import {Container, Header, Content, Form, Item, Input} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Logo from '../../../image/drawable-hdpi/Group1.png';
-import {db} from '../../config/config'
-import firebase from '@react-native-firebase/app'
-import '@react-native-firebase/auth'
+import {db} from '../../config/config';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/auth';
+import GetLocation from 'react-native-get-location';
 
 class RegisterScreen extends Component {
   constructor(props) {
@@ -32,11 +33,26 @@ class RegisterScreen extends Component {
       errorMessage: null,
       loading: false,
       updatesEnabled: false,
+      location: [],
     };
     this.handleSignUp = this.handleSignUp.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        console.log(location);
+        this.setState({
+          location: location,
+        });
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn(code, message);
+      });
     this._isMounted = true;
   }
 
@@ -66,16 +82,18 @@ class RegisterScreen extends Component {
       );
     } else {
       // Action
-      await firebase.auth()
+      await firebase
+        .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(async userCredentials => {
-          db
-          .ref('/user/' + userCredentials.user.uid)
+          db.ref('/user/' + userCredentials.user.uid)
             .set({
               name: this.state.name,
               status: 'Online',
               email: this.state.email,
-              uid: userCredentials.user.uid
+              uid: userCredentials.user.uid,
+              longitude: this.state.location.longitude,
+              latitude: this.state.location.latitude,
             })
             .catch(error => console.log(error.message));
 
@@ -102,7 +120,7 @@ class RegisterScreen extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-      <Image
+        <Image
           source={Logo}
           style={{position: 'absolute', alignItems: 'center', width: '100%'}}
         />
@@ -167,7 +185,7 @@ class RegisterScreen extends Component {
             </TouchableOpacity>
           </Content>
         </View>
-        </View>
+      </View>
     );
   }
 }

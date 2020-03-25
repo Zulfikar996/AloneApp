@@ -186,7 +186,16 @@ class ChatRoom extends Component {
           />
         </View>
         <View style={{flex: 1, backgroundColor: 'white', flexDirection: 'row'}}>
-          <View style={{flex: 9, justifyContent: 'center'}}>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <TouchableOpacity>
+              <Icon
+                name="add"
+                style={styles.icon}
+                onPress={() => this.props.navigation.navigate('Maps')}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{flex: 8, justifyContent: 'center'}}>
             <TextInput
               placeholder="Type message"
               style={styles.chat}
