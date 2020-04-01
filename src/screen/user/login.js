@@ -1,16 +1,11 @@
 import React, {Component} from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
   ToastAndroid,
-  ImageBackground,
   Image
 } from 'react-native';
-import {Container, Header, Content, Form, Item, Input} from 'native-base';
+import { Content, Form, Item, Input} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {auth, db} from '../../config/config';
 import Logo from '../../../image/drawable-hdpi/Group1.png';
@@ -45,7 +40,7 @@ class LoginScreen extends Component {
     });
   };
 
-  handleLogin = () => {
+  handleLogin = async () => {
     const {email, password} = this.state;
     if (email.length < 6) {
       ToastAndroid.show(
@@ -63,9 +58,10 @@ class LoginScreen extends Component {
       auth
         .signInWithEmailAndPassword(email, password)
         .then(async data => {
-          console.log('CHAT HOME')
           this.setState({loading: false})
           this.props.navigation.navigate('Home');
+          const id = auth.currentUser.uid
+          await db.ref('/user/' + id).child("status").set('online')
         })
         .catch(error => console.log(error.message));
     }

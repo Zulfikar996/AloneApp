@@ -75,7 +75,9 @@ export default class HomeScreen extends Component {
     });
   }
 
-  logout = () => {
+  logout = async () => {
+    const id = auth.currentUser.uid
+    await db.ref('/user/' + id).child("status").set('offline')
     auth.signOut().then(() => this.props.navigation.navigate('Login'));
   };
   render() {
