@@ -18,8 +18,9 @@ import Setting from '../settings/setting';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {auth, db} from '../../config/config';
-import GetLocation from 'react-native-get-location'
-
+import GetLocation from 'react-native-get-location';
+import User from '../../../user';
+import def from '../../../image/logoava.png';
 
 const styles = StyleSheet.create({
   header: {
@@ -46,6 +47,34 @@ const styles = StyleSheet.create({
 });
 
 export default class HomeScreen extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+    user: []
+    }
+  }
+
+  async componentDidMount() {
+    await db.ref('user').on('child_added', val => {
+      console.log('kldmafkmsakl',val)
+      let person = val.val();
+      person.uid = val.key;
+      if (person.uid === auth.currentUser.uid) {
+        User.name = person.name;
+        User.photo = person.photo ? person.photo : def;
+        User.status = person.status;
+        User.email = person.email;
+      } else {
+        this.setState(prevState => {
+          return {
+            user: [...prevState.user, person],
+          };
+        });
+      }
+    });
+  }
+
   logout = () => {
     auth.signOut().then(() => this.props.navigation.navigate('Login'));
   };

@@ -1,27 +1,52 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, ActivityIndicator} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ActivityIndicator,
+  TextInput,
+  ToastAndroid
+} from 'react-native';
 import {Thumbnail} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ava from '../../../image/logoava.png';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
 import {auth, db} from '../../config/config';
-import firebase from 'firebase'
-
+import firebase from 'firebase';
+import User from '../../../user';
 
 class ProfileScreen extends Component {
   state = {
     imageSource: require('../../../image/logoava.png'),
     upload: false,
   };
-  onLogout = async () => {
-    const id = auth.currentUser.uid;
-    await db
-      .ref('/user/' + id)
-      .child('status')
-      .set('offline');
-    auth.signOut().then(res => console.warn('oke'));
+
+  state = {
+    imageSource: {uri: User.photo},
+    upload: false,
+    names: '',
+    name: User.name,
+    photo: User.photo,
+    email: User.email
   };
+
+  onSubmitName = async () => {
+    const { name } = this.state;
+    if(name.length < 1) {
+      ToastAndroid.show(
+        'Please input a valid Name',
+        ToastAndroid.LONG )
+    } else {
+      User.name = name,
+      await this.updateUser()
+          }
+
+  }
+
+  updateUser = () => {
+    db.ref('/user/').child(auth.currentUser.uid).set(User)
+    ToastAndroid.show('Success', ToastAndroid.LONG);
+  }
 
   changeImage = () => {
     const options = {
@@ -97,6 +122,7 @@ class ProfileScreen extends Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <>
         <View
@@ -106,7 +132,6 @@ class ProfileScreen extends Component {
             alignItems: 'center',
           }}>
           <TouchableOpacity onPress={this.changeImage}>
-            
             {this.state.upload ? (
               <ActivityIndicator size="large" />
             ) : (
@@ -122,12 +147,22 @@ class ProfileScreen extends Component {
               justifyContent: 'center',
               height: 75,
             }}>
-            <TouchableOpacity>
-              <Text style={{fontSize: 17, fontWeight: 'bold'}}>
-                Display Name
-              </Text>
-              <Text style={{fontSize: 15}}>nanti name</Text>
-            </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{flex: 6}}>
+                <Text style={{fontSize: 17, fontWeight: 'bold'}}>
+                  Display Name
+                </Text>
+                <TextInput value={this.state.name} onChangeText={(text) => this.setState({name : text})} style={{fontSize: 15}} />
+              </View>
+              <View style={{flex: 1}}>
+                <TouchableOpacity onPress={this.onSubmitName}>
+                <Icon
+                    name="save"
+                    style={{fontSize: 25, color: 'grey', paddingTop: 10}}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
           <View
             style={{
@@ -136,17 +171,15 @@ class ProfileScreen extends Component {
               justifyContent: 'center',
               height: 75,
             }}>
-            <TouchableOpacity>
-              <Text style={{fontSize: 17, fontWeight: 'bold'}}>Email</Text>
-              <Text style={{fontSize: 15}}>nanti email</Text>
-            </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{flex: 6}}>
+                <Text style={{fontSize: 17, fontWeight: 'bold'}}>
+                  Email
+                </Text>
+                <Text style={{fontSize: 15}} > {this.state.email}</Text>
+              </View>
+            </View>
           </View>
-          {/* {photo && (
-            <Image
-              source={{uri: photo.uri}}
-              style={{width: 100, height: 100}}
-            />
-          )} */}
         </View>
       </>
     );

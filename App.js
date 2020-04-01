@@ -1,19 +1,12 @@
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
 } from 'react-native';
 
 import {
   LearnMoreLinks,
   Colors,
-  DebugInstructions,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {createStackNavigator} from 'react-navigation-stack';
 
@@ -22,6 +15,8 @@ import LoginScreen from './src/screen/user/login';
 import RegisterScreen from './src/screen/user/register';
 import ChatRoom from './src/screen/chat/chatRoom';
 import MapsScreen from './src/screen/chat/maps'
+import SplashScreen from 'react-native-splash-screen'
+import FriendProfile from './src/screen/profile/profileFriend'
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 
 const homeNavigator = createStackNavigator(
@@ -50,6 +45,9 @@ const homeNavigator = createStackNavigator(
     Maps: {
       screen: MapsScreen,
     },
+    Friend : {
+      screen: FriendProfile,
+    },
 
   },
   {
@@ -63,11 +61,14 @@ const AppNavigator = createSwitchNavigator({
 
 const AppContainer = createAppContainer(AppNavigator);
 
-class App extends Component {
-  render() {
-    console.disableYellowBox = true;
-    return <AppContainer />;
-  }
+function App() {
+  useEffect(() => {
+    SplashScreen.hide()
+  }, []);
+  console.disableYellowBox = true;
+  return (
+    <AppContainer />
+  )
 }
 
 const styles = StyleSheet.create({
@@ -75,5 +76,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lighter,
   },
 });
+
 
 export default App;

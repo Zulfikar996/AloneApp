@@ -65,6 +65,16 @@ class ChatScreen extends Component {
   }
 
   renderRow = ({item}) => {
+    let photoThere = <Thumbnail source={{uri: `${item.photo}`}} />;
+    let photoNull = <Thumbnail source={{uri: `https://firebasestorage.googleapis.com/v0/b/aloneapp-d893b.appspot.com/o/profile%2Flogoava.png?alt=media&token=2e22eac8-dda3-4234-938b-fd1f92dc5f1e`}} />
+
+    let photoCheck;
+    if(item.photo){
+      photoCheck = photoThere
+    }
+    else {
+      photoCheck = photoNull
+    }
     return (
       <Content>
         <TouchableOpacity
@@ -72,7 +82,7 @@ class ChatScreen extends Component {
           <List>
             <ListItem avatar>
               <Left>
-                <Thumbnail source={{uri: `${item.photo}`}} />
+                {photoCheck}
               </Left>
               <Body>
                 <Text style={{fontWeight: 'bold'}}>{item.name}</Text>
@@ -89,7 +99,6 @@ class ChatScreen extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <>
         <View>

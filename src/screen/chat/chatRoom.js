@@ -4,7 +4,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {TouchableOpacity, FlatList} from 'react-native-gesture-handler';
 import {auth, db, time} from '../../config/config';
 import {Thumbnail} from 'native-base';
-import ava from '../../../image/logoava.png';
+import moment from 'moment';
+import User from '../../../user';
 
 const styles = StyleSheet.create({
   icon: {
@@ -21,9 +22,25 @@ const styles = StyleSheet.create({
 });
 
 class ChatRoom extends Component {
-  static navigationOptions = () => {
+  static navigationOptions = ({navigation}) => {
+    const id = navigation.getParam('uid');
     return {
-      title: 'nanti nama orangnya',
+      headerTitle: (
+        <View>
+          <View>
+        <TouchableOpacity onPress={() => navigation.navigate('Friend', id)}>
+          <Text style={{fontWeight: 'bold', fontSize: 20, color: 'grey'}}>
+            {navigation.getParam('name', null)}
+          </Text>
+        </TouchableOpacity>
+          </View>
+          <View>
+        <Text>
+          {navigation.getParam('status', null)}
+        </Text>
+          </View>
+        </View>
+      ),
       headerStyle: {
         backgroundColor: '#405A58',
       },
@@ -39,6 +56,7 @@ class ChatRoom extends Component {
     this.state = {
       name: props.navigation.getParam('name'),
       uid: props.navigation.getParam('uid'),
+      photo: props.navigation.getParam('photo'),
       textMessage: '',
       messageList: '',
       title: '',
@@ -102,67 +120,67 @@ class ChatRoom extends Component {
 
   renderRow = ({item}) => {
     console.disableYellowBox = true;
-    // console.log(auth.currentUser.uid)
     const Chat = () => {
       if (item.from == auth.currentUser.uid) {
         return (
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Chat', item)}>
+          
             <View
               style={{
-                marginHorizontal: 5,
                 marginVertical: 5,
-                borderColor: '#FFF',
-                borderWidth: 1,
                 padding: 15,
                 borderRadius: 10,
-                backgroundColor: '#1bb2ef',
                 flexDirection: 'row',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-end',
               }}>
-              <View style={{flex: 5, paddingLeft: 20, paddingRight: 10}}>
-                <Text>{item.message}</Text>
-              </View>
               <View
                 style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  padding: 10,
+                  borderTopRightRadius: 10,
+                  borderTopLeftRadius: 10,
+                  borderBottomLeftRadius: 10,
+                  backgroundColor: '#9ab3bd',
+                  maxWidth: 300,
+                  right: 5
                 }}>
-                <Thumbnail source={ava} />
-                <Text style={{top: 5}}>{this.convertTime(item.time)}</Text>
+                <Text>{item.message}</Text>
+              </View>
+              <View>
+                <Thumbnail source={{uri: `${User.photo}`}} />
+                <Text style={{top: 5}}>{moment(item.time).format('LT')}</Text>
               </View>
             </View>
-          </TouchableOpacity>
         );
       } else {
         return (
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Chat', item)}>
             <View
               style={{
-                marginHorizontal: 5,
                 marginVertical: 5,
-                borderColor: '#FFF',
-                borderWidth: 1,
                 padding: 15,
                 borderRadius: 10,
-                backgroundColor: '#9ab3bd',
                 flexDirection: 'row',
+                alignItems: 'flex-start',
               }}>
               <View
                 style={{
-                  flex: 1,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Thumbnail source={ava} />
-                <Text style={{top: 5}}>{this.convertTime(item.time)}</Text>
+                <Thumbnail source={{uri: `${this.state.photo}`}} />
+                <Text style={{top: 5}}>{moment(item.time).format('LT')}</Text>
               </View>
-              <View style={{flex: 5, paddingLeft: 20, paddingRight: 10}}>
+              <View
+                style={{
+                  padding: 10,
+                  borderBottomRightRadius: 10,
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  backgroundColor: '#9ab3bd',
+                  maxWidth: 300,
+                }}>
                 <Text>{item.message}</Text>
               </View>
             </View>
-          </TouchableOpacity>
         );
       }
     };
