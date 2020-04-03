@@ -5,13 +5,8 @@ import {
   Tab,
   Tabs,
   TabHeading,
-  Content,
-  Footer,
-  FooterTab,
-  Button,
-  Badge,
 } from 'native-base';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TextInput, StatusBar} from 'react-native';
 import Chat from '../chat/chat';
 import Profile from '../profile/profile';
 import Setting from '../settings/setting';
@@ -85,6 +80,7 @@ export default class HomeScreen extends Component {
       <Container>
         <Header hasTabs style={styles.header}>
           <View style={{flex: 1}}>
+      <StatusBar backgroundColor='red' barStyle="light-content" />
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{flex: 9}}>
                 <Text style={{fontSize: 30, color: 'grey', fontWeight: 'bold'}}>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, StatusBar} from 'react-native';
 import {
   Content,
   List,
@@ -102,6 +102,8 @@ class ChatScreen extends Component {
     return (
       <>
         <View>
+          <StatusBar backgroundColor="#39504E" barStyle="light-content" />
+
           <FlatList
             data={this.state.users}
             renderItem={this.renderRow}

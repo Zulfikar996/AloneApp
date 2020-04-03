@@ -1,19 +1,15 @@
 import React, {Component} from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
   ToastAndroid,
-  ImageBackground,
   Image,
 } from 'react-native';
-import {Container, Header, Content, Form, Item, Input} from 'native-base';
+import {Content, Item, Input} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Logo from '../../../image/drawable-hdpi/Group1.png';
 import {db} from '../../config/config';
+import ava from '../../../image/logoava.png'
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import GetLocation from 'react-native-get-location';
@@ -44,7 +40,6 @@ class RegisterScreen extends Component {
       timeout: 15000,
     })
       .then(location => {
-        console.log(location);
         this.setState({
           location: location,
         });
@@ -90,6 +85,7 @@ class RegisterScreen extends Component {
             .set({
               name: this.state.name,
               status: 'Online',
+              photo: 'https://firebasestorage.googleapis.com/v0/b/aloneapp-d893b.appspot.com/o/profile%2Flogoava.png?alt=media&token=2e22eac8-dda3-4234-938b-fd1f92dc5f1e',
               email: this.state.email,
               uid: userCredentials.user.uid,
               longitude: this.state.location.longitude,

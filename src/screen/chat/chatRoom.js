@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TextInput, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Dimensions, StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {TouchableOpacity, FlatList} from 'react-native-gesture-handler';
 import {auth, db, time} from '../../config/config';
@@ -196,6 +196,8 @@ class ChatRoom extends Component {
     return (
       <>
         <View style={{flex: 12}}>
+        <StatusBar backgroundColor="#39504E" barStyle="light-content" />
+
           <FlatList
             style={{padding: 10, height: height * 0.8}}
             data={this.state.messageList}
