@@ -1,4 +1,4 @@
-[Brown Chair Interior Design Photo Collage.pdf](https://github.com/Zulfikar996/POS-APP-With-redux/files/4437807/Brown.Chair.Interior.Design.Photo.Collage.pdf)
+![Brown Chair Interior Design Photo Collage](https://user-images.githubusercontent.com/60281216/78551475-fce6c680-782f-11ea-99a2-9addb69ddaf3.png)
 <h1 align="center">Bampor</h1>
 <p align="left">
   Build with React Native and Realtime Database Firebase
